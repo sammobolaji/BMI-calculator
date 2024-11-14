@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(32, 28, 28);
+        }
+
+        h1{
+            color: white;
+        }
+
+        main div {
+            display: flex;
+            flex-direction: row;
+            padding-block: 15px;
+            padding-inline-start: 10px;
+            gap: 15px;
+        }
+
+        main button {
+            width: 40%;
+            border-radius: 10px;
+            border: none;
+            padding-block: 5px;
+            cursor: pointer;
+            background-color: aquamarine;
+        }
+
+        main button:hover {
+            color: yellow;
+            background-color: gray;
+        }
+
+        main p {
+            border-radius: 10px;
+            color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>B M I CALCULATOR</h1>
+
+        <div>
+            <input type="text" name="weight" id="weight" placeholder="Your weight">
+            <input type="text" name="height" id="height" placeholder="Your height (m)">
+        </div>
+
+        <button type="button">Check your BMI Result</button>
+
+        <section>
+            <p id="result"></p>
+            <p id="status"></p>
+            <p id="recommendation"></p>
+        </section>
+    </main>
+</body>
+
+<script>
+    const btn = document.querySelector('button');
+    const height = document.querySelector('#height');
+    const weight = document.querySelector('#weight');
+    const result = document.querySelector('#result');
+    const status = document.querySelector('#status');
+    const recommendation = document.querySelector('#recommendation');
+    const main = document.querySelector('main'); //  Main for background color change
+
+
+    btn.addEventListener('click', handleBmiCalculator);
+
+    function handleBmiCalculator() {
+        const weightValue = parseFloat(weight.value);
+        const heightValue = parseFloat(height.value);
+
+        if (isNaN(weightValue) || isNaN(heightValue) || heightValue <= 0) {
+            result.textContent = '';
+            status.textContent = '';
+            recommendation.textContent = 'Please enter valid weight and height values.';
+            main.style.backgroundColor = 'blueviolet'; // Reset background color if invalid
+            return;
+        }
+
+        const bmi = weightValue / (heightValue ** 2);
+        result.innerHTML = `Your BMI is: ${bmi.toFixed(2)} kg/m<sup>2</sup>;`;
+
+        if (bmi < 18.5) {
+            status.textContent = 'You are underweight';
+            recommendation.textContent = 'Consider a balanced diet to reach a healthier weight.';
+            main.style.backgroundColor = 'blue';
+        } else if (bmi < 24.5) {
+            status.textContent = 'You have a healthy weight';
+            recommendation.textContent = 'Great job maintaining a healthy BMI!';
+            main.style.backgroundColor = 'green';
+        } else if (bmi < 30) {
+            status.textContent = 'You are overweight';
+            recommendation.textContent = 'Consider a healthier lifestyle to improve your BMI.';
+            main.style.backgroundColor = 'red';
+        } else {
+            status.textContent = 'You are obese';
+            recommendation.textContent = 'Consult a healthcare provider for guidance on achieving a healthier weight.';
+            main.style.backgroundColor = 'red';
+        }
+    }
+</script>
+</html>
